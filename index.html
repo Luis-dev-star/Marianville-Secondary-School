@@ -1,0 +1,251 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Marianville Secondary School — Layout</title>
+
+  <style>
+    :root{
+      --gap: 18px;
+      --max-width: 1200px;
+      --bg: #e6fbff;
+      --card: #ffffff;
+      --accent: #6b21a8; /* rebeccapurple-ish */
+      --muted: #6b7280;
+      --accent-2: #9ae6b4; /* yellowgreen-ish */
+      --radius: 12px;
+      --shadow: 0 8px 20px rgba(16,24,40,0.08);
+      --glass: linear-gradient(135deg, rgba(255,255,255,0.6), rgba(255,255,255,0.3));
+    }
+
+    /* Global reset & type */
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background: linear-gradient(180deg,#f0fcff 0%, var(--bg) 100%);
+      color:#0f172a;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.45;
+      padding:32px 16px;
+      display:flex;
+      justify-content:center;
+    }
+
+    .site{
+      width:100%;
+      max-width:var(--max-width);
+      display:grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap:var(--gap);
+      align-items:start;
+    }
+
+    /* Header */
+    header{
+      grid-column: 1 / -1;
+      background: var(--glass);
+      border-radius: var(--radius);
+      padding:20px 24px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(107,33,168,0.06);
+    }
+    header h1{
+      margin:0;
+      font-size:1.25rem;
+      color:var(--accent);
+      letter-spacing:0.2px;
+    }
+    header .sub{
+      color:var(--muted);
+      font-size:0.9rem;
+    }
+
+    /* Navigation (left column) */
+    nav.nav{
+      grid-column: 1 / 3;
+      background: linear-gradient(180deg, #ffffff, #fafafa);
+      padding:18px;
+      border-radius:10px;
+      border:1px solid rgba(16,24,40,0.04);
+      box-shadow: 0 6px 14px rgba(10,10,20,0.04);
+      height:fit-content;
+    }
+    nav.nav ul{
+      list-style:none;
+      margin:0;
+      padding:0;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+    nav.nav a{
+      display:block;
+      padding:10px 12px;
+      border-radius:8px;
+      color:var(--accent);
+      text-decoration:none;
+      font-weight:600;
+      transition:all .18s ease;
+      border:1px solid transparent;
+    }
+    nav.nav a:hover{
+      background: linear-gradient(90deg, rgba(107,33,168,0.06), rgba(154,230,180,0.06));
+      transform:translateX(4px);
+      border-color: rgba(107,33,168,0.08);
+    }
+
+    /* Main content spans columns 3-10 */
+    main{
+      grid-column: 3 / 10;
+      background:var(--card);
+      padding:20px;
+      border-radius:10px;
+      box-shadow:var(--shadow);
+      border:1px solid rgba(16,24,40,0.04);
+    }
+    main h2{
+      margin-top:0;
+      color:#0f172a;
+      font-size:1.1rem;
+    }
+    .profile{
+      display:flex;
+      gap:16px;
+      align-items:center;
+    }
+    .profile img{
+      width:140px;
+      height:140px;
+      object-fit:cover;
+      border-radius:12px;
+      box-shadow:0 8px 20px rgba(16,24,40,0.08);
+      border:4px solid rgba(255,255,255,0.6);
+      background:linear-gradient(180deg,#fff,#f7f7fb);
+    }
+    .profile .meta{color:var(--muted)}
+
+    /* Aside (right column) */
+    aside{
+      grid-column: 10 / 13;
+      background:linear-gradient(180deg,#fff,#fbfffc);
+      padding:16px;
+      border-radius:10px;
+      border:1px solid rgba(107,33,168,0.06);
+      height:fit-content;
+    }
+    aside p{margin:0 0 8px 0;color:var(--muted)}
+
+    /* Footer full width */
+    footer{
+      grid-column:1 / -1;
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      align-items:center;
+      padding:12px 16px;
+      color:var(--muted);
+      font-size:0.9rem;
+    }
+
+    /* Utility */
+    .card{
+      background:#fff;
+      padding:12px;
+      border-radius:10px;
+      border:1px solid rgba(16,24,40,0.03);
+    }
+    .list-reset{margin:0;padding:0;list-style:none}
+    .links a{color:var(--accent);text-decoration:none}
+    .links a:hover{text-decoration:underline}
+
+    /* Responsive: stack at smaller widths */
+    @media (max-width:900px){
+      nav.nav{grid-column:1 / -1; order:1}
+      main{grid-column:1 / -1; order:2}
+      aside{grid-column:1 / -1; order:3}
+      header{order:0}
+      footer{order:4}
+      .profile{flex-direction:row; gap:12px}
+      .profile img{width:96px;height:96px}
+    }
+
+    @media (max-width:420px){
+      body{padding:16px}
+      header h1{font-size:1rem}
+      .profile img{width:80px;height:80px}
+    }
+  </style>
+</head>
+
+<body>
+  <div class="site" role="document">
+    <header>
+      <div>
+        <h1>Marianville Secondary School</h1>
+        <div class="sub">Excellence • Community • Growth</div>
+      </div>
+      <div class="sub">Welcome — Student options and resources</div>
+    </header>
+
+    <nav class="nav" aria-label="Main navigation">
+      <ul>
+        <li><a href="#section1">Option 1</a></li>
+        <li><a href="#section2">Option 2</a></li>
+        <li><a href="#students">Students</a></li>
+        <li><a href="https://www.google.com" target="_blank" rel="noopener">External: Google</a></li>
+      </ul>
+    </nav>
+
+    <main>
+      <h2 id="section1">Section 1 — Option overview</h2>
+
+      <div class="profile" style="margin-bottom:12px">
+        <!-- Use a relative path or place 'apple2.jpeg' alongside this HTML for portability -->
+        <img src="/Users/luis/Desktop/apple2.jpeg" alt="Apple image" />
+        <div class="meta">
+          <strong>Option 2 students</strong>
+          <p style="margin:.35rem 0 0 0">Short description or welcome message for Option 2.</p>
+        </div>
+      </div>
+
+      <section id="students" class="card" aria-labelledby="students-heading">
+        <h3 id="students-heading" style="margin-top:0">These are students in option2</h3>
+        <ol style="margin:0 0 0 1.15rem">
+          <li>Dorothy Migile</li>
+          <li>Josepha Gondo</li>
+        </ol>
+      </section>
+    </main>
+
+    <aside>
+      <h4 style="margin:0 0 8px 0">Navigation / Quick Info</h4>
+      <p>This is the nav bar area for quick links and resources.</p>
+      <div class="card links" style="margin-top:10px">
+        <strong>Useful links</strong>
+        <ul class="list-reset" style="margin-top:8px">
+          <li><a href="#" aria-label="School portal">School Portal</a></li>
+          <li><a href="#" aria-label="Library">Library</a></li>
+        </ul>
+      </div>
+    </aside>
+
+    <footer>
+      <div>© Marianville Secondary School</div>
+      <div class="sub">Design system • Responsive grid</div>
+    </footer>
+  </div>
+</body>
+</html>
+
+
+
+
+
