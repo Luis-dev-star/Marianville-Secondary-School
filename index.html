@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,6 +17,46 @@
       --radius: 12px;
       --shadow: 0 8px 20px rgba(16,24,40,0.08);
       --glass: linear-gradient(135deg, rgba(255,255,255,0.6), rgba(255,255,255,0.3));
+    }
+
+    /* Animations */
+    @keyframes fadeInUp {
+      0% { opacity: 0; transform: translateY(32px);}
+      100% { opacity: 1; transform: translateY(0);}
+    }
+    @keyframes fadeIn {
+      0% { opacity: 0;}
+      100% { opacity: 1;}
+    }
+    @keyframes imgReveal {
+      0% { opacity: 0; transform: scale(0.92);}
+      60% { opacity: 0.6;}
+      100% { opacity: 1; transform: scale(1);}
+    }
+
+    /* Add initial state for animation targets. */
+    header, nav.nav, main, aside, footer {
+      opacity: 0;
+      transform: translateY(32px);
+      animation: fadeInUp 1.1s cubic-bezier(.23,.66,.65,1) forwards;
+    }
+    header { animation-delay: 0.09s; }
+    nav.nav { animation-delay: 0.18s; }
+    main { animation-delay: 0.27s;}
+    aside { animation-delay: 0.36s;}
+    footer { animation-delay: 0.45s;}
+
+    /* Profile img reveal animation */
+    .profile img {
+      opacity: 0;
+      transform: scale(0.92);
+      animation: imgReveal 1.3s cubic-bezier(.3,1.15,.4,1) 0.52s forwards;
+    }
+
+    /* Animate cards/links inside aside */
+    aside .card {
+      opacity: 0;
+      animation: fadeIn 1.1s cubic-bezier(.23,.66,.65,1) 0.62s forwards;
     }
 
     /* Global reset & type */
@@ -93,13 +132,16 @@
       color:var(--accent);
       text-decoration:none;
       font-weight:600;
-      transition:all .18s ease;
+      transition:all .18s ease, transform 0.18s ease;
       border:1px solid transparent;
+      /* For animation */
+      will-change: transform;
     }
     nav.nav a:hover{
       background: linear-gradient(90deg, rgba(107,33,168,0.06), rgba(154,230,180,0.06));
-      transform:translateX(4px);
+      transform: translateX(4px) scale(1.06);
       border-color: rgba(107,33,168,0.08);
+      box-shadow: 0 2px 8px rgba(107,33,168,0.07);
     }
 
     /* Main content spans columns 3-10 */
@@ -161,6 +203,14 @@
       padding:12px;
       border-radius:10px;
       border:1px solid rgba(16,24,40,0.03);
+      transition: box-shadow 0.25s cubic-bezier(.23,.66,.65,1), transform 0.16s ease;
+    }
+    .card.links a{
+      transition: color 0.15s, transform 0.23s cubic-bezier(.26,2,.54,1.23);
+    }
+    .card.links a:hover{
+      color: var(--accent);
+      transform: scale(1.08);
     }
     .list-reset{margin:0;padding:0;list-style:none}
     .links a{color:var(--accent);text-decoration:none}
@@ -244,8 +294,3 @@
   </div>
 </body>
 </html>
-
-
-
-
-
