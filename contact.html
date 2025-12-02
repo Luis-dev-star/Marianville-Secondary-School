@@ -91,7 +91,7 @@
       const payload = { name, email, message };
 
       // Try server endpoint first (explicit URL for local testing)
-      const API_URL = 'https://kysllwkfsvsjuiicfpms.functions.supabase.co/contact_form_submit';
+      const API_URL = 'https://mcp.supabase.com/mcp?project_ref=kysllwkfsvsjuiicfpms;
       try{
         const resp = await fetch(API_URL, {
           method: 'POST',
