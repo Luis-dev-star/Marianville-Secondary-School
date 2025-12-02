@@ -1,0 +1,151 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Contact Us — Marianville Secondary School</title>
+  <style>
+    :root{--accent:#6b21a8;--muted:#6b7280;background:#f7fbfd}
+    body{font-family:Inter,system-ui,Arial;margin:0;background:linear-gradient(180deg,#f0fcff,#f7fbfd);padding:28px;display:flex;justify-content:center}
+    .card{background:#fff;padding:20px;border-radius:12px;max-width:720px;width:100%;box-shadow:0 10px 30px rgba(16,24,40,0.06);border:1px solid rgba(16,24,40,0.04)}
+    h1{margin:0 0 8px 0;color:var(--accent)}
+    p.sub{margin:0 0 18px 0;color:var(--muted)}
+    label{display:block;margin:10px 0 6px 0;font-weight:600}
+    input[type=text],input[type=email],textarea{width:100%;padding:10px;border-radius:8px;border:1px solid #e6e9ef;font-size:1rem}
+    textarea{min-height:140px;resize:vertical}
+    .actions{display:flex;gap:8px;margin-top:12px}
+    .btn{padding:10px 14px;border-radius:8px;border:1px solid transparent;background:var(--accent);color:#fff;font-weight:600;text-decoration:none;cursor:pointer}
+    .btn.secondary{background:transparent;color:var(--accent);border-color:rgba(107,33,168,0.08)}
+    .note{margin-top:10px;color:var(--muted);font-size:0.95rem}
+    .error{color:#b91c1c;margin-top:8px}
+    a.back{display:inline-block;margin-top:10px;color:var(--accent);text-decoration:none}
+
+    /* Success modal / message */
+    .success{background:linear-gradient(90deg,rgba(106,17,203,0.06),rgba(154,230,180,0.06));border:1px solid rgba(107,33,168,0.06);padding:12px;border-radius:8px;color:var(--accent);margin-top:12px}
+
+    /* Honeypot (hidden) */
+    .hp{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden}
+  </style>
+</head>
+<body>
+  <div class="card" role="main">
+    <h1>Contact Us</h1>
+    <p class="sub">Questions, feedback or support — send us a message and we'll get back to you.</p>
+
+    <form id="contactForm">
+      <label for="name">Your name</label>
+      <input id="name" name="name" type="text" required />
+
+      <label for="email">Your email</label>
+      <input id="email" name="email" type="email" required />
+
+      <!-- Honeypot field to catch bots: leave this blank -->
+      <label class="hp" for="website">Website</label>
+      <input class="hp" id="website" name="website" type="text" autocomplete="off" tabindex="-1" />
+
+      <label for="message">Message</label>
+      <textarea id="message" name="message" required></textarea>
+
+      <div class="actions">
+        <button class="btn" type="submit">Send (mailto)</button>
+        <button type="button" id="downloadBtn" class="btn secondary">Download copy</button>
+      </div>
+      <div id="feedback" class="note" aria-live="polite"></div>
+    </form>
+
+    <a class="back" href="index.html">← Back to home</a>
+  </div>
+
+  <script>
+    function sanitizeFileName(name){
+      return name.replace(/[^a-z0-9_\-]/gi,'_') || 'contact';
+    }
+
+    function makeBody(name,email,message){
+      const when = new Date().toISOString();
+      return `Name: ${name}\nEmail: ${email}\nDate: ${when}\n\nMessage:\n${message}\n`;
+    }
+
+    const form = document.getElementById('contactForm');
+    const feedback = document.getElementById('feedback');
+
+    form.addEventListener('submit', async function(e){
+      e.preventDefault();
+      feedback.textContent = '';
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const message = document.getElementById('message').value.trim();
+      const website = document.getElementById('website').value.trim(); // honeypot
+
+      if(website){ // bot detected
+        feedback.innerHTML = '<span class="error">Submission rejected.</span>';
+        return;
+      }
+
+      if(!name || !email || !message){
+        feedback.innerHTML = '<span class="error">Please fill in all fields.</span>';
+        return;
+      }
+
+      const payload = { name, email, message };
+
+      // Try server endpoint first (explicit URL for local testing)
+      const API_URL = 'http://localhost:3000/api/contact';
+      try{
+        const resp = await fetch(API_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        });
+
+        if(resp.ok){
+          const data = await resp.json();
+          feedback.innerHTML = `<div class="success">${data.message || 'Message received. Thank you!'}</div>`;
+          form.reset();
+          return;
+        }else{
+          const text = await resp.text();
+          console.warn('Server error', resp.status, text);
+          feedback.innerHTML = '<span class="error">Server error — falling back to mailto/download.</span>';
+        }
+      }catch(err){
+        console.info('Server not reachable, falling back to mailto/download', err);
+        feedback.innerHTML = '<span class="error">Server not reachable — falling back to mailto/download.</span>';
+      }
+
+      // Fallback: mailto + download copy
+      const subject = encodeURIComponent('Contact from ' + name);
+      const body = makeBody(name,email,message);
+      const mailto = `mailto:?subject=${subject}&body=${encodeURIComponent(body)}`;
+      try{ window.location.href = mailto; }catch(e){}
+      const blob = new Blob([body], {type: 'text/plain'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = sanitizeFileName(name) + '-contact.txt';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    });
+
+    document.getElementById('downloadBtn').addEventListener('click', function(){
+      const name = document.getElementById('name').value.trim() || 'anonymous';
+      const email = document.getElementById('email').value.trim() || 'no-email';
+      const message = document.getElementById('message').value.trim() || '';
+      const body = makeBody(name,email,message);
+      const blob = new Blob([body], {type: 'text/plain'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = sanitizeFileName(name) + '-contact.txt';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+      feedback.textContent = 'Downloaded a copy of your message.';
+    });
+  </script>
+</body>
+</html>
