@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Student Registration</title>
+  <link rel="stylesheet" href="/assets/css/style.css">
+
+  <!-- Supabase JS -->
+  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+</head>
+<body>
+  <div class="page">
+    <main class="card" role="main">
+      <h1>Student Registration</h1>
+      <p class="lead">Complete the form below. Fields marked with * are required.</p>
+
+      <!-- NOTE: removed action + method -->
+      <form id="registrationForm" novalidate>
+        <div class="form-grid">
+
+          <!-- ===================== -->
+          <!-- PERSONAL INFORMATION -->
+          <!-- ===================== -->
+          <fieldset class="group-card field two-thirds">
+            <legend>Personal Information</legend>
+
+            <div class="form-grid">
+              <div class="field half">
+                <label>Surname *</label>
+                <input name="surname" required>
+              </div>
+
+              <div class="field half">
+                <label>Given Name *</label>
+                <input name="given_name" required>
+              </div>
+
+              <div class="field third">
+                <label>Date of Birth</label>
+                <input name="dob" type="date">
+              </div>
+
+              <div class="field third">
+                <label>Age</label>
+                <input name="age" type="number">
+              </div>
+
+              <div class="field two-thirds">
+                <label>School Last Attended</label>
+                <input name="school_last_attended">
+              </div>
+
+              <div class="field two-thirds">
+                <label>Email *</label>
+                <input name="email" type="email" required>
+              </div>
+
+              <div class="field third">
+                <label>Religion</label>
+                <input name="religion">
+              </div>
+
+              <div class="field">
+                <h3>Catholic Students Only</h3>
+                <div class="form-grid">
+                  <select name="baptized">
+                    <option value="">Baptized?</option>
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                  </select>
+
+                  <select name="communion">
+                    <option value="">First Communion?</option>
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                  </select>
+
+                  <select name="confirmation">
+                    <option value="">Confirmed?</option>
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </fieldset>
+
+          <!-- ===================== -->
+          <!-- RESIDENTIAL INFO -->
+          <!-- ===================== -->
+          <fieldset class="group-card field one-third">
+            <legend>Residential Information</legend>
+            <input name="section" placeholder="Section">
+            <input name="allotment" placeholder="Allotment">
+            <input name="block" placeholder="Block">
+            <input name="house_number" placeholder="House Number">
+            <input name="road" placeholder="Road">
+            <input name="unit" placeholder="Unit">
+            <input name="suburban" placeholder="Suburban">
+          </fieldset>
+
+          <!-- ===================== -->
+          <!-- SUBMIT -->
+          <!-- ===================== -->
+          <div class="field">
+            <button type="submit" class="btn btn-primary">
+              Submit Registration
+            </button>
+          </div>
+
+        </div>
+      </form>
+    </main>
+  </div>
+
+<script>
+/* ===========================
+   SUPABASE CONFIG
+=========================== */
+const supabaseUrl = "https://htbxnypwbgiwkwmqezmr.supabase.co";
+const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh0YnhueXB3Ymdpd2t3bXFlem1yIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUyODk1ODUsImV4cCI6MjA4MDg2NTU4NX0.ZUqnPruYOfIz_VVAILWZxsE9k9aqM0ruLllLm-Bnqvg";
+const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+
+/* ===========================
+   FORM SUBMIT
+=========================== */
+document.getElementById("registrationForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const form = e.target;
+  const data = Object.fromEntries(new FormData(form));
+
+  const { error } = await supabase
+    .from("students")
+    .insert([data]);
+
+  if (error) {
+    alert("Error saving registration");
+    console.error(error);
+  } else {
+    alert("Registration submitted successfully!");
+    form.reset();
+  }
+});
+</script>
+</body>
+</html>
