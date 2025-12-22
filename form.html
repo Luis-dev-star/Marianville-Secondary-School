@@ -24,7 +24,6 @@
             box-sizing: border-box;
         }
 *{box-sizing:border-box;margin:0;padding:0}
-
 body{
   font-family:Segoe UI,Tahoma,sans-serif;
   background:linear-gradient(135deg,#667eea,#764ba2);
@@ -34,126 +33,67 @@ body{
   align-items:center;
   padding:20px;
 }
-
 .container{
   background:#fff;
-  max-width:700px;
+  max-width:900px;
   width:100%;
   padding:40px;
   border-radius:10px;
   box-shadow:0 10px 25px rgba(0,0,0,.2);
 }
-
 h1{text-align:center;margin-bottom:25px}
-
-h3{
-  grid-column:1/-1;
-  margin-top:20px;
-  color:#333;
-}
-
+h3{grid-column:1/-1;margin-top:25px}
 .form-grid{
   display:grid;
   grid-template-columns:1fr 1fr;
   gap:20px;
 }
-
-.form-group{
-  display:flex;
-  flex-direction:column;
-}
-
 .full-width{grid-column:1/-1}
-
-label{
-  font-weight:600;
-  margin-bottom:6px;
-  font-size:14px;
+.form-group{display:flex;flex-direction:column}
+label{font-weight:600;margin-bottom:6px}
+input,select,textarea{
+  padding:12px;border:2px solid #ddd;border-radius:5px;font-size:14px
 }
-
-input,textarea{
-  padding:12px;
-  border:2px solid #ddd;
-  border-radius:5px;
-  font-size:14px;
-}
-
-input:focus,textarea:focus{
-  outline:none;
-  border-color:#667eea;
-}
-
-.radio-group,.checkbox-group{
-  display:flex;
-  gap:15px;
-  flex-wrap:wrap;
-}
-
-.radio-item,.checkbox-item{
-  display:flex;
-  align-items:center;
-  gap:6px;
-}
-
+textarea{min-height:90px}
+.radio-group{display:flex;gap:15px;flex-wrap:wrap}
 button{
   grid-column:1/-1;
   padding:14px;
   background:linear-gradient(135deg,#667eea,#764ba2);
-  color:#fff;
-  border:none;
-  border-radius:6px;
-  font-size:16px;
-  font-weight:600;
-  cursor:pointer;
+  color:#fff;border:none;border-radius:6px;
+  font-size:16px;font-weight:600;cursor:pointer
 }
-
 .success-message,.error-message{
-  display:none;
-  padding:12px;
-  margin-bottom:15px;
-  border-radius:5px;
-  text-align:center;
+  display:none;padding:12px;margin-bottom:15px;border-radius:5px;text-align:center
 }
-
 .success-message{background:#d5f4e6;color:#1e8449}
 .error-message{background:#fadbd8;color:#c0392b}
-
-@media(max-width:600px){
-  .form-grid{grid-template-columns:1fr}
-}
+@media(max-width:600px){.form-grid{grid-template-columns:1fr}}
 </style>
 </head>
 
 <body>
 <div class="container">
 
-<h1>Marianville Secondary School – Form</h1>
+<h1>Student Registration Form</h1>
 
-<div class="success-message" id="successMessage">Form submitted successfully!</div>
-<div class="error-message" id="errorMessage"></div>
+<div id="successMessage" class="success-message">Registration submitted successfully ✅</div>
+<div id="errorMessage" class="error-message"></div>
 
 <form id="schoolForm" class="form-grid">
 
 <input type="text" name="website" style="display:none">
 
+<h3>Student Information</h3>
+
 <div class="form-group">
-  <label>First Name *</label>
-  <input type="text" name="Gname" required>
+  <label>First Name</label>
+  <input name="Gname">
 </div>
 
 <div class="form-group">
-  <label>Surname *</label>
-  <input type="text" name="surname" required>
-</div>
-
-<div class="form-group full-width">
-  <label>Email *</label>
-  <input type="email" name="email" required>
-</div>
-
-<div class="form-group">
-  <label>Contact Number</label>
-  <input type="phone" name="contact_number">
+  <label>Surname</label>
+  <input name="surname">
 </div>
 
 <div class="form-group">
@@ -161,71 +101,93 @@ button{
   <input type="date" name="dob">
 </div>
 
-<h3>Parent / Guardian Information</h3>
-
 <div class="form-group">
-  <label>Father's Name</label>
-  <input type="text" name="father_name">
+  <label>Age</label>
+  <input type="number" name="age">
 </div>
 
 <div class="form-group">
-  <label>Father's Occupation</label>
-  <input type="text" name="father_occupation">
+  <label>School Last Attended</label>
+  <input name="school">
 </div>
 
 <div class="form-group">
-  <label>Father's Email</label>
-  <input type="email" name="father_email">
+  <label>Email</label>
+  <input type="email" name="email">
 </div>
 
 <div class="form-group">
-  <label>Mother's Name</label>
-  <input type="text" name="mother_name">
+  <label>Religion</label>
+  <input name="religion">
 </div>
 
 <div class="form-group">
-  <label>Mother's Contact</label>
-  <input type="text" name="mother_contact_number">
+  <label>Baptized</label>
+  <select name="baptized"><option></option><option>Yes</option><option>No</option></select>
 </div>
 
-<div class="form-group full-width">
-  <label>Address</label>
-  <input type="text" name="road">
+<div class="form-group">
+  <label>Communion</label>
+  <select name="communion"><option></option><option>Yes</option><option>No</option></select>
 </div>
 
-<div class="form-group full-width">
-  <label>Grade Level *</label>
-  <div class="radio-group">
-    <label class="radio-item"><input type="radio" name="section" value="Grade 7"> Grade 7</label>
-    <label class="radio-item"><input type="radio" name="section" value="Grade 8"> Grade 8</label>
-    <label class="radio-item"><input type="radio" name="section" value="Grade 9"> Grade 9</label>
-  </div>
+<div class="form-group">
+  <label>Confirmation</label>
+  <select name="confirmation"><option></option><option>Yes</option><option>No</option></select>
 </div>
 
-<div class="form-group full-width">
-  <label>Transport Mode</label>
-  <div class="radio-group">
-    <label class="radio-item"><input type="radio" name="transport" value="School Bus"> School Bus</label>
-    <label class="radio-item"><input type="radio" name="transport" value="Private"> Private</label>
-  </div>
+<h3>Address</h3>
+
+<div class="form-group"><label>Section</label><input name="section"></div>
+<div class="form-group"><label>Allotment</label><input name="allotment"></div>
+<div class="form-group"><label>Block</label><input name="block"></div>
+<div class="form-group"><label>House Number</label><input name="house_number"></div>
+<div class="form-group"><label>Road</label><input name="road"></div>
+<div class="form-group"><label>Unit</label><input name="unit"></div>
+<div class="form-group"><label>Suburban</label><input name="suburban"></div>
+
+<h3>Parent Information</h3>
+
+<div class="form-group"><label>Father Name</label><input name="father_name"></div>
+<div class="form-group"><label>Father Occupation</label><input name="father_occupation"></div>
+<div class="form-group"><label>Employer Name</label><input name="employer_name"></div>
+<div class="form-group"><label>Place of Origin</label><input name="place_of_origin"></div>
+<div class="form-group"><label>Contact Number</label><input name="contact_number"></div>
+<div class="form-group"><label>Father Email</label><input type="email" name="father_email"></div>
+
+<div class="form-group"><label>Mother Name</label><input name="mother_name"></div>
+<div class="form-group"><label>Mother Occupation</label><input name="mother_occupation"></div>
+<div class="form-group"><label>Mother Employer</label><input name="mother_employer_name"></div>
+<div class="form-group"><label>Mother Origin</label><input name="mother_place_of_origin"></div>
+<div class="form-group"><label>Mother Contact</label><input name="mother_contact_number"></div>
+<div class="form-group"><label>Mother Email</label><input type="email" name="mother_email"></div>
+
+<h3>Guardian</h3>
+
+<div class="form-group"><label>Name</label><input name="guardian_name"></div>
+<div class="form-group"><label>Occupation</label><input name="guardian_occupation"></div>
+<div class="form-group"><label>Relationship</label><input name="guardian_relationship"></div>
+<div class="form-group"><label>Origin</label><input name="guardian_place_of_origin"></div>
+<div class="form-group"><label>Contact</label><input name="guardian_contact_number"></div>
+<div class="form-group"><label>Email</label><input type="email" name="guardian_email"></div>
+
+<h3>Emergency</h3>
+
+<div class="form-group"><label>Name</label><input name="emergency_contact_name"></div>
+<div class="form-group"><label>Relationship</label><input name="emergency_relationship"></div>
+<div class="form-group"><label>Contact</label><input name="emergency_contact_number"></div>
+
+<h3>Transport</h3>
+
+<div class="form-group full-width radio-group">
+  <label><input type="radio" name="transport" value="School Bus"> School Bus</label>
+  <label><input type="radio" name="transport" value="Private"> Private</label>
 </div>
 
-<div class="form-group full-width">
-  <label>Interests</label>
-  <div class="checkbox-group">
-    <label class="checkbox-item"><input type="checkbox" name="allotment" value="Sports"> Sports</label>
-    <label class="checkbox-item"><input type="checkbox" name="allotment" value="Arts"> Arts</label>
-    <label class="checkbox-item"><input type="checkbox" name="allotment" value="Science"> Science</label>
-  </div>
-</div>
+<div class="form-group"><label>Mode</label><input name="mode"></div>
+<div class="form-group"><label>Agree Transport</label><select name="agree_transport"><option></option><option>Yes</option><option>No</option></select></div>
 
-<div class="form-group full-width">
-  <label>Additional Comments</label>
-  <textarea name="remarks"></textarea>
-</div>
-
-<button type="submit">Submit Form</button>
-
+<button type="submit">Submit Registration</button>
 </form>
 </div>
 
