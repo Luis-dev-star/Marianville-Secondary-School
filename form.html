@@ -194,14 +194,16 @@ button{
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
+const successMessage = document.getElementById("successMessage");
+const errorMessage = document.getElementById("errorMessage");
+
 const SUPABASE_URL = "https://db.htbxnypwbgiwkwmqezmr.supabase.co";
-  const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh0YnhueXB3Ymdpd2t3bXFlem1yIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUyODk1ODUsImV4cCI6MjA4MDg2NTU4NX0.ZUqnPruYOfIz_VVAILWZxsE9k9aqM0ruLllLm-Bnqvg";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh0YnhueXB3Ymdpd2t3bXFlem1yIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUyODk1ODUsImV4cCI6MjA4MDg2NTU4NX0.ZUqnPruYOfIz_VVAILWZxsE9k9aqM0ruLllLm-Bnqvg";
 
-  const supabase = supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_ANON_KEY
-  );
-
+const supabase = supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_ANON_KEY
+);
 
 document.getElementById("schoolForm").addEventListener("submit", async e => {
   e.preventDefault();
@@ -211,8 +213,10 @@ document.getElementById("schoolForm").addEventListener("submit", async e => {
   if(error){
     errorMessage.textContent = error.message;
     errorMessage.style.display="block";
+    successMessage.style.display="none"; // Optional: hide success if error occurs
   }else{
     successMessage.style.display="block";
+    errorMessage.style.display="none"; // Optional: hide error if success
     e.target.reset();
   }
 });
