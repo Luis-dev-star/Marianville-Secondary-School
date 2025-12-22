@@ -1,225 +1,124 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Form - Marianville Secondary School</title>
-    <style>
-        :root{
-  --bg: #f5f7fb;
-  --card: #ffffff;
-  --muted: #6b7280;
-  --accent: #0ea5a4; /* teal */
-  --accent-600: #0b8f8d;
-  --danger: #ef4444;
-  --radius: 10px;
-  --max-width: 980px;
-  --gap: 1rem;
-  --transition: 180ms ease;
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Marianville Secondary School – Registration Form</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+
+body{
+  font-family:Segoe UI,Tahoma,sans-serif;
+  background:linear-gradient(135deg,#667eea,#764ba2);
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding:20px;
 }
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
+.container{
+  background:#fff;
+  max-width:700px;
+  width:100%;
+  padding:40px;
+  border-radius:10px;
+  box-shadow:0 10px 25px rgba(0,0,0,.2);
+}
 
-        .container {
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-            max-width: 600px;
-            width: 100%;
-            padding: 40px;
-        }
+h1{text-align:center;margin-bottom:25px}
 
-        h1 {
-            color: #333;
-            margin-bottom: 30px;
-            text-align: center;
-            font-size: 28px;
-        }
+h3{
+  grid-column:1/-1;
+  margin-top:20px;
+  color:#333;
+}
 
-        .form-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin-bottom: 20px;
-        }
+.form-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:20px;
+}
 
-        .form-grid .full-width {
-            grid-column: 1 / -1;
-        }
+.form-group{
+  display:flex;
+  flex-direction:column;
+}
 
-        .form-group {
-            display: flex;
-            flex-direction: column;
-        }
+.full-width{grid-column:1/-1}
 
-        label {
-            color: #555;
-            font-weight: 600;
-            margin-bottom: 8px;
-            font-size: 14px;
-        }
+label{
+  font-weight:600;
+  margin-bottom:6px;
+  font-size:14px;
+}
 
-        input[type="text"],
-        input[type="email"],
-        input[type="phone"],
-        input[type="date"],
-        input[type="number"],
-        textarea,
-        select {
-            padding: 12px;
-            border: 2px solid #ddd;
-            border-radius: 5px;
-            font-size: 14px;
-            font-family: inherit;
-            transition: all 0.3s ease;
-            background-color: #f9f9f9;
-        }
+input,textarea{
+  padding:12px;
+  border:2px solid #ddd;
+  border-radius:5px;
+  font-size:14px;
+}
 
-        input[type="text"]:focus,
-        input[type="email"]:focus,
-        input[type="phone"]:focus,
-        input[type="date"]:focus,
-        input[type="number"]:focus,
-        textarea:focus,
-        select:focus {
-            outline: none;
-            border-color: #667eea;
-            background-color: white;
-            box-shadow: 0 0 5px rgba(102, 126, 234, 0.4);
-        }
+input:focus,textarea:focus{
+  outline:none;
+  border-color:#667eea;
+}
 
-        textarea {
-            resize: vertical;
-            min-height: 120px;
-        }
+.radio-group,.checkbox-group{
+  display:flex;
+  gap:15px;
+  flex-wrap:wrap;
+}
 
-        .checkbox-group {
-            display: flex;
-            gap: 15px;
-            margin-top: 10px;
-            flex-wrap: wrap;
-        }
+.radio-item,.checkbox-item{
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
 
-        .checkbox-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
+button{
+  grid-column:1/-1;
+  padding:14px;
+  background:linear-gradient(135deg,#667eea,#764ba2);
+  color:#fff;
+  border:none;
+  border-radius:6px;
+  font-size:16px;
+  font-weight:600;
+  cursor:pointer;
+}
 
-        input[type="checkbox"],
-        input[type="radio"] {
-            width: 18px;
-            height: 18px;
-            cursor: pointer;
-        }
+.success-message,.error-message{
+  display:none;
+  padding:12px;
+  margin-bottom:15px;
+  border-radius:5px;
+  text-align:center;
+}
 
-        .radio-group {
-            display: flex;
-            gap: 20px;
-            margin-top: 10px;
-            flex-wrap: wrap;
-        }
+.success-message{background:#d5f4e6;color:#1e8449}
+.error-message{background:#fadbd8;color:#c0392b}
 
-        .radio-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        button {
-            grid-column: 1 / -1;
-            padding: 12px 30px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin-top: 20px;
-        }
-
-        button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
-        }
-
-        button:active {
-            transform: translateY(0);
-        }
-
-        .success-message {
-            display: none;
-            color: #27ae60;
-            background-color: #d5f4e6;
-            padding: 12px;
-            border-radius: 5px;
-            margin-bottom: 20px;
-            text-align: center;
-            border-left: 4px solid #27ae60;
-        }
-
-        .error-message {
-            display: none;
-            color: #e74c3c;
-            background-color: #fadbd8;
-            padding: 12px;
-            border-radius: 5px;
-            margin-bottom: 20px;
-            text-align: center;
-            border-left: 4px solid #e74c3c;
-        }
-
-        @media (max-width: 600px) {
-            .form-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .container {
-                padding: 20px;
-            }
-
-            h1 {
-                font-size: 24px;
-                margin-bottom: 20px;
-            }
-
-            .form-grid {
-                gap: 15px;
-            }
-        }
-    </style>
+@media(max-width:600px){
+  .form-grid{grid-template-columns:1fr}
+}
+</style>
 </head>
-<body>
-    <div class="container">
-        <h1>Marianville Secondary School - Form</h1>
-        
-        <div class="success-message" id="successMessage">
-            Form submitted successfully!
-        </div>
-        
-        <div class="error-message" id="errorMessage">
-            Please fill in all required fields.
-        </div>
 
-       <form id="schoolForm" class="form-grid">
+<body>
+<div class="container">
+
+<h1>Marianville Secondary School – Form</h1>
+
+<div class="success-message" id="successMessage">Form submitted successfully!</div>
+<div class="error-message" id="errorMessage"></div>
+
+<form id="schoolForm" class="form-grid">
+
 <input type="text" name="website" style="display:none">
 
-<!-- STUDENT INFO -->
 <div class="form-group">
   <label>First Name *</label>
   <input type="text" name="Gname" required>
@@ -237,7 +136,7 @@
 
 <div class="form-group">
   <label>Contact Number</label>
-  <input type="tel" name="contact_number">
+  <input type="text" name="contact_number">
 </div>
 
 <div class="form-group">
@@ -245,10 +144,7 @@
   <input type="date" name="dob">
 </div>
 
-<!-- SECTION HEADER -->
-<div class="form-group full-width">
-  <h3>Parent / Guardian Information</h3>
-</div>
+<h3>Parent / Guardian Information</h3>
 
 <div class="form-group">
   <label>Father's Name</label>
@@ -272,67 +168,70 @@
 
 <div class="form-group">
   <label>Mother's Contact</label>
-  <input type="tel" name="mother_contact_number">
+  <input type="text" name="mother_contact_number">
 </div>
 
-<!-- TRANSPORT -->
 <div class="form-group full-width">
-  <label>Transport Mode</label>
+  <label>Address</label>
+  <input type="text" name="road">
+</div>
+
+<div class="form-group full-width">
+  <label>Grade Level *</label>
   <div class="radio-group">
-    <label><input type="radio" name="transport" value="School Bus"> School Bus</label>
-    <label><input type="radio" name="transport" value="Private"> Private</label>
+    <label class="radio-item"><input type="radio" name="section" value="Grade 7"> Grade 7</label>
+    <label class="radio-item"><input type="radio" name="section" value="Grade 8"> Grade 8</label>
+    <label class="radio-item"><input type="radio" name="section" value="Grade 9"> Grade 9</label>
   </div>
 </div>
 
-<!-- COMMENTS -->
+<div class="form-group full-width">
+  <label>Transport Mode</label>
+  <div class="radio-group">
+    <label class="radio-item"><input type="radio" name="transport" value="School Bus"> School Bus</label>
+    <label class="radio-item"><input type="radio" name="transport" value="Private"> Private</label>
+  </div>
+</div>
+
+<div class="form-group full-width">
+  <label>Interests</label>
+  <div class="checkbox-group">
+    <label class="checkbox-item"><input type="checkbox" name="allotment" value="Sports"> Sports</label>
+    <label class="checkbox-item"><input type="checkbox" name="allotment" value="Arts"> Arts</label>
+    <label class="checkbox-item"><input type="checkbox" name="allotment" value="Science"> Science</label>
+  </div>
+</div>
+
 <div class="form-group full-width">
   <label>Additional Comments</label>
-  <textarea name="comments"></textarea>
+  <textarea name="remarks"></textarea>
 </div>
 
 <button type="submit">Submit Form</button>
+
 </form>
-
-
-<div id="confirmation" style="display:none">
-  <h2>Registration Submitted ✅</h2>
-  <p>Thank you. Your registration has been received.</p>
 </div>
 
-
-        
-    </div>
-
-   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-  const SUPABASE_URL = "https://db.htbxnypwbgiwkwmqezmr.supabase.co";
-  const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh0YnhueXB3Ymdpd2t3bXFlem1yIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUyODk1ODUsImV4cCI6MjA4MDg2NTU4NX0.ZUqnPruYOfIz_VVAILWZxsE9k9aqM0ruLllLm-Bnqvg";
+const supabase = supabase.createClient(
+  "https://db.htbxnypwbgiwkwmqezmr.supabase.co",
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh0YnhueXB3Ymdpd2t3bXFlem1yIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUyODk1ODUsImV4cCI6MjA4MDg2NTU4NX0.ZUqnPruYOfIz_VVAILWZxsE9k9aqM0ruLllLm-Bnqvg"
+);
 
-  const supabase = supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_ANON_KEY
-  );
+document.getElementById("schoolForm").addEventListener("submit", async e => {
+  e.preventDefault();
+  const data = Object.fromEntries(new FormData(e.target));
+  const { error } = await supabase.from("app_users").insert([data]);
 
-  document.getElementById("schoolForm").addEventListener("submit", async (e) => {
-    e.preventDefault();
-
-    const form = e.target;
-    const formData = Object.fromEntries(new FormData(form));
-
-    const { error } = await supabase
-      .from("app_users")
-      .insert([formData]);
-
-    if (error) {
-      console.error(error);
-      document.getElementById("errorMessage").textContent = error.message;
-      document.getElementById("errorMessage").style.display = "block";
-    } else {
-      document.getElementById("successMessage").style.display = "block";
-      form.reset();
-    }
-  });
+  if(error){
+    errorMessage.textContent = error.message;
+    errorMessage.style.display="block";
+  }else{
+    successMessage.style.display="block";
+    e.target.reset();
+  }
+});
 </script>
 
 </body>
