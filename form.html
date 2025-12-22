@@ -296,30 +296,37 @@
         </form>
     </div>
 
-    <script>
-        document.getElementById('schoolForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const successMessage = document.getElementById('successMessage');
-            const errorMessage = document.getElementById('errorMessage');
-            
-            // Reset messages
-            successMessage.style.display = 'none';
-            errorMessage.style.display = 'none';
-            
-            // Simple validation
-            const firstName = document.getElementById('firstName').value;
-            const lastName = document.getElementById('lastName').value;
-            const email = document.getElementById('email').value;
-            const gradeLevel = document.querySelector('input[name="gradeLevel"]:checked');
-            
-            if (firstName && lastName && email && gradeLevel) {
-                successMessage.style.display = 'block';
-                this.reset();
-            } else {
-                errorMessage.style.display = 'block';
-            }
-        });
-    </script>
+   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+  const SUPABASE_URL = "https://db.htbxnypwbgiwkwmqezmr.supabase.co";
+  const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh0YnhueXB3Ymdpd2t3bXFlem1yIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUyODk1ODUsImV4cCI6MjA4MDg2NTU4NX0.ZUqnPruYOfIz_VVAILWZxsE9k9aqM0ruLllLm-Bnqvg";
+
+  const supabase = supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_ANON_KEY
+  );
+
+  document.getElementById("schoolForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const form = e.target;
+    const formData = Object.fromEntries(new FormData(form));
+
+    const { error } = await supabase
+      .from("app_users")
+      .insert([formData]);
+
+    if (error) {
+      console.error(error);
+      document.getElementById("errorMessage").textContent = error.message;
+      document.getElementById("errorMessage").style.display = "block";
+    } else {
+      document.getElementById("successMessage").style.display = "block";
+      form.reset();
+    }
+  });
+</script>
+
 </body>
 </html>
