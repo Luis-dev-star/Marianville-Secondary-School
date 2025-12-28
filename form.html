@@ -24,6 +24,7 @@
             padding: 0;
             box-sizing: border-box;
         }
+
 *{box-sizing:border-box;margin:0;padding:0}
 body{
   font-family:Segoe UI,Tahoma,sans-serif;
@@ -52,11 +53,9 @@ h3{grid-column:1/-1;margin-top:25px}
 .full-width{grid-column:1/-1}
 .form-group{display:flex;flex-direction:column}
 label{font-weight:600;margin-bottom:6px}
-input,select,textarea{
+input,select{
   padding:12px;border:2px solid #ddd;border-radius:5px;font-size:14px
 }
-textarea{min-height:90px}
-.radio-group{display:flex;gap:15px;flex-wrap:wrap}
 button{
   grid-column:1/-1;
   padding:14px;
@@ -74,6 +73,7 @@ button{
 </head>
 
 <body>
+
 <div class="container">
 
 <h1>Student Registration Form</h1>
@@ -81,75 +81,62 @@ button{
 <div id="successMessage" class="success-message">Registration submitted successfully ✅</div>
 <div id="errorMessage" class="error-message"></div>
 
-<form id="schoolForm" class="form-grid">
+<form id="schoolForm" class="form-grid" novalidate>
 
+<!-- honeypot -->
 <input type="text" name="website" style="display:none">
 
 <h3>Student Information</h3>
 
 <div class="form-group">
-  <label for="Gname">First Name</label>
-  <input id="Gname" name="Gname">
+  <label>First Name *</label>
+  <input name="Gname" required>
 </div>
 
 <div class="form-group">
-  <label for="surname">Surname</label>
-  <input id="surname" name="surname">
+  <label>Surname *</label>
+  <input name="surname" required>
 </div>
 
 <div class="form-group">
-  <label for="dob">Date of Birth</label>
-  <input id="dob" type="date" name="dob">
+  <label>Date of Birth</label>
+  <input type="date" name="dob">
 </div>
 
 <div class="form-group">
-  <label for="age">Age</label>
-  <input id="age" type="number" name="age">
+  <label>Age</label>
+  <input type="number" name="age" min="1" max="25">
 </div>
 
 <div class="form-group">
-  <label for="school">School Last Attended</label>
-  <input id="school" name="school">
+  <label>School Last Attended</label>
+  <input name="school">
 </div>
 
 <div class="form-group">
-  <label for="email">Email</label>
-  <input id="email" type="email" name="email">
+  <label>Email</label>
+  <input type="email" name="email">
 </div>
 
 <div class="form-group">
-  <label for="religion">Religion</label>
-  <input id="religion" name="religion">
-</div>
-
-
-<div class="form-group">
-  <label for="baptized">Baptized</label>
-  <select id="baptized" name="baptized">
-    <option></option>
-    <option>Yes</option>
-    <option>No</option>
-  </select>
+  <label>Religion</label>
+  <input name="religion">
 </div>
 
 <div class="form-group">
-  <label for="communion">Communion</label>
-  <select id="communion" name="communion">
-    <option></option>
-    <option>Yes</option>
-    <option>No</option>
-  </select>
+  <label>Baptized</label>
+  <select name="baptized"><option></option><option>Yes</option><option>No</option></select>
 </div>
 
 <div class="form-group">
-  <label for="confirmation">Confirmation</label>
-  <select id="confirmation" name="confirmation">
-    <option></option>
-    <option>Yes</option>
-    <option>No</option>
-  </select>
+  <label>Communion</label>
+  <select name="communion"><option></option><option>Yes</option><option>No</option></select>
 </div>
-/*//////////////////////////////////////////////////////////////*/
+
+<div class="form-group">
+  <label>Confirmation</label>
+  <select name="confirmation"><option></option><option>Yes</option><option>No</option></select>
+</div>
 
 <h3>Address</h3>
 
@@ -169,7 +156,6 @@ button{
 <div class="form-group"><label>Father's Place of Origin</label><input name="place_of_origin"></div>
 <div class="form-group"><label>Father's Contact</label><input name="contact_number"></div>
 <div class="form-group"><label>Father's Email</label><input type="email" name="father_email"></div>
-  <hr> <br>
 
 <div class="form-group"><label>Mother's Name</label><input name="mother_name"></div>
 <div class="form-group"><label>Mother's Occupation</label><input name="mother_occupation"></div>
@@ -195,42 +181,61 @@ button{
 
 <h3>Transport</h3>
 
-<div class="form-group full-width radio-group">
-  <label for="transport_bus">
-    <input id="transport_bus" type="radio" name="transport" value="School Bus">
-    School Bus
-  </label>
+<div class="form-group full-width">
+  <label>Transport</label>
+  <div class="radio-group">
+    <label><input type="radio" name="transport" value="School Bus"> School Bus</label>
+    <label><input type="radio" name="transport" value="Private"> Private</label>
+  </div>
+</div>
 
-  <label for="transport_private">
-    <input id="transport_private" type="radio" name="transport" value="Private">
-    Private
-  </label>
+<div class="form-group">
+  <label>Mode</label>
+  <select name="mode">
+    <option></option>
+    <option>Day</option>
+    <option>Boarder</option>
+  </select>
+</div>
+
+<div class="form-group full-width">
+  <label><input type="checkbox" name="agree_transport" value="Yes"> I confirm transport information is correct</label>
 </div>
 
 <button type="submit">Submit Registration</button>
+
 </form>
 </div>
-
-  
-
 
 <script>
 const successMessage = document.getElementById("successMessage");
 const errorMessage = document.getElementById("errorMessage");
 
-const API_ENDPOINT = "/api/submit"; // adjust for your host
+// Your deployed proxy route (e.g., Vercel, Netlify Function, Cloudflare Worker)
+const API_ENDPOINT = "/api/submit";
 
 document.getElementById("schoolForm").addEventListener("submit", async (e) => {
   e.preventDefault();
 
   const formData = Object.fromEntries(new FormData(e.target));
-  delete formData.website; // honeypot
+
+  // honeypot bot trap
+  if (formData.website) return;
+
+  // frontend required validation
+  if (!formData.surname || !formData.Gname) {
+    errorMessage.textContent = "First name and surname are required.";
+    errorMessage.style.display = "block";
+    successMessage.style.display = "none";
+    return;
+  }
 
   const res = await fetch(API_ENDPOINT, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      "x-server-secret": "YOUR_PROXY_SECRET" // same as env PROXY_SECRET
+      // DO NOT hardcode secret publicly
+      "x-server-secret": "REPLACE_WITH_YOUR_PROXY_SECRET"
     },
     body: JSON.stringify(formData)
   });
@@ -238,7 +243,7 @@ document.getElementById("schoolForm").addEventListener("submit", async (e) => {
   const text = await res.text();
 
   if (!res.ok) {
-    errorMessage.textContent = text;
+    errorMessage.textContent = text || "Submission failed";
     errorMessage.style.display = "block";
     successMessage.style.display = "none";
     return;
@@ -249,7 +254,6 @@ document.getElementById("schoolForm").addEventListener("submit", async (e) => {
   e.target.reset();
 });
 </script>
-
 
 </body>
 </html>
