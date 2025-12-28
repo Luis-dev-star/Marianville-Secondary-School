@@ -218,7 +218,7 @@ const errorMessage = document.getElementById("errorMessage");
 const SUPABASE_URL = "https://db.htbxnypwbgiwkwmqezmr.supabase.co";
 const SUPABASE_ANON_KEY = "sb_publishable_FqI3J_47_SnMiiXEQLahGQ_sCElz4qZ";
 
-const supabase = window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
+const supabase = createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
 
 document.getElementById("schoolForm").addEventListener("submit", async (e) => {
   e.preventDefault();
