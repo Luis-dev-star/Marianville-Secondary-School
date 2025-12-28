@@ -218,77 +218,38 @@ button{
 const successMessage = document.getElementById("successMessage");
 const errorMessage = document.getElementById("errorMessage");
 
-
-const supabase = supabase.createClient("https://db.htbxnypwbgiwkwmqezmr.supabase.co","eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh0YnhueXB3Ymdpd2t3bXFlem1yIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUyODk1ODUsImV4cCI6MjA4MDg2NTU4NX0.ZUqnPruYOfIz_VVAILWZxsE9k9aqM0ruLllLm-Bnqvg");
+const API_ENDPOINT = "/api/submit"; // adjust for your host
 
 document.getElementById("schoolForm").addEventListener("submit", async (e) => {
   e.preventDefault();
 
-  // form data
   const formData = Object.fromEntries(new FormData(e.target));
   delete formData.website; // honeypot
 
-  const payload = {
-    surname: formData.surname || null,
-    Gname: formData.Gname || null,
-    dob: formData.dob || null,
-    age: formData.age ? Number(formData.age) : null,
-    school: formData.school || null,
-    email: formData.email || null,
-    religion: formData.religion || null,
-    baptized: formData.baptized || null,
-    communion: formData.communion || null,
-    confirmation: formData.confirmation || null,
-    section: formData.section || null,
-    allotment: formData.allotment || null,
-    block: formData.block || null,
-    house_number: formData.house_number || null,
-    road: formData.road || null,
-    unit: formData.unit || null,
-    suburban: formData.suburban || null,
-    father_name: formData.father_name || null,
-    father_occupation: formData.father_occupation || null,
-    employer_name: formData.employer_name || null,
-    place_of_origin: formData.place_of_origin || null,
-    contact_number: formData.contact_number || null,
-    father_email: formData.father_email || null,
-    mother_name: formData.mother_name || null,
-    mother_occupation: formData.mother_occupation || null,
-    mother_employer_name: formData.mother_employer_name || null,
-    mother_place_of_origin: formData.mother_place_of_origin || null,
-    mother_contact_number: formData.mother_contact_number || null,
-    mother_email: formData.mother_email || null,
-    guardian_name: formData.guardian_name || null,
-    guardian_occupation: formData.guardian_occupation || null,
-    guardian_relationship: formData.guardian_relationship || null,
-    guardian_place_of_origin: formData.guardian_place_of_origin || null,
-    guardian_contact_number: formData.guardian_contact_number || null,
-    guardian_email: formData.guardian_email || null,
-    emergency_contact_name: formData.emergency_contact_name || null,
-    emergency_relationship: formData.emergency_relationship || null,
-    emergency_contact_number: formData.emergency_contact_number || null,
-    transport: formData.transport || null,
-    mode: formData.mode || null,
-    agree_transport: formData.agree_transport || null
-  };
+  const res = await fetch(API_ENDPOINT, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "x-server-secret": "YOUR_PROXY_SECRET" // same as env PROXY_SECRET
+    },
+    body: JSON.stringify(formData)
+  });
 
-  const { data: insertedData, error } = await supabase
-    .from("app_users")
-    .insert([payload]);
+  const text = await res.text();
 
-  if (error) {
-    console.error(error);
-    errorMessage.textContent = error.message;
+  if (!res.ok) {
+    errorMessage.textContent = text;
     errorMessage.style.display = "block";
     successMessage.style.display = "none";
-  } else {
-    successMessage.style.display = "block";
-    errorMessage.style.display = "none";
-    e.target.reset();
-    console.log("Inserted:", insertedData);
+    return;
   }
+
+  successMessage.style.display = "block";
+  errorMessage.style.display = "none";
+  e.target.reset();
 });
 </script>
+
 
 </body>
 </html>
