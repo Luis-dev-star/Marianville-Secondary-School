@@ -198,25 +198,73 @@ const successMessage = document.getElementById("successMessage");
 const errorMessage = document.getElementById("errorMessage");
 
 const SUPABASE_URL = "https://db.htbxnypwbgiwkwmqezmr.supabase.co";
-const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh0YnhueXB3Ymdpd2t3bXFlem1yIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUyODk1ODUsImV4cCI6MjA4MDg2NTU4NX0.ZUqnPruYOfIz_VVAILWZxsE9k9aqM0ruLllLm-Bnqvg";
+const SUPABASE_ANON_KEY = "YOUR_ANON_KEY"; // keep your existing key if desired
 
-const supabase = supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_ANON_KEY
-);
+// Properly get createClient from the imported library
+const { createClient } = supabase;
+const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 document.getElementById("schoolForm").addEventListener("submit", async e => {
   e.preventDefault();
   const data = Object.fromEntries(new FormData(e.target));
-  const { error } = await supabase.from("app_users").insert([data]);
+  // remove honeypot
+  delete data.website;
 
-  if(error){
+  // Build explicit payload matching your DB columns
+  const payload = {
+    surname: data.surname || null,
+    Gname: data.Gname || null,
+    dob: data.dob || null,
+    age: data.age ? Number(data.age) : null,
+    school: data.school || null,
+    email: data.email || null,
+    religion: data.religion || null,
+    baptized: data.baptized || null,
+    communion: data.communion || null,
+    confirmation: data.confirmation || null,
+    section: data.section || null,
+    allotment: data.allotment || null,
+    block: data.block || null,
+    house_number: data.house_number || null,
+    road: data.road || null,
+    unit: data.unit || null,
+    suburban: data.suburban || null,
+    father_name: data.father_name || null,
+    father_occupation: data.father_occupation || null,
+    employer_name: data.employer_name || null,
+    place_of_origin: data.place_of_origin || null,
+    contact_number: data.contact_number || null,
+    father_email: data.father_email || null,
+    mother_name: data.mother_name || null,
+    mother_occupation: data.mother_occupation || null,
+    mother_employer_name: data.mother_employer_name || null,
+    mother_place_of_origin: data.mother_place_of_origin || null,
+    mother_contact_number: data.mother_contact_number || null,
+    mother_email: data.mother_email || null,
+    guardian_name: data.guardian_name || null,
+    guardian_occupation: data.guardian_occupation || null,
+    guardian_relationship: data.guardian_relationship || null,
+    guardian_place_of_origin: data.guardian_place_of_origin || null,
+    guardian_contact_number: data.guardian_contact_number || null,
+    guardian_email: data.guardian_email || null,
+    emergency_contact_name: data.emergency_contact_name || null,
+    emergency_relationship: data.emergency_relationship || null,
+    emergency_contact_number: data.emergency_contact_number || null,
+    transport: data.transport || null,
+    mode: data.mode || null,
+    agree_transport: data.agree_transport || null
+    // created_at is defaulted by the DB, do not set it here
+  };
+
+  const { error } = await supabase.from("app_users").insert([payload]);
+
+  if (error) {
     errorMessage.textContent = error.message;
-    errorMessage.style.display="block";
-    successMessage.style.display="none"; // Optional: hide success if error occurs
-  }else{
-    successMessage.style.display="block";
-    errorMessage.style.display="none"; // Optional: hide error if success
+    errorMessage.style.display = "block";
+    successMessage.style.display = "none";
+  } else {
+    successMessage.style.display = "block";
+    errorMessage.style.display = "none";
     e.target.reset();
   }
 });
