@@ -194,15 +194,16 @@ button{
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
+  // Properly get createClient from the imported library
+
+const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 const successMessage = document.getElementById("successMessage");
 const errorMessage = document.getElementById("errorMessage");
 
 const SUPABASE_URL = "https://db.htbxnypwbgiwkwmqezmr.supabase.co";
 const SUPABASE_ANON_KEY = "sb_publishable_FqI3J_47_SnMiiXEQLahGQ_sCElz4qZ"; // keep your existing key if desired
 
-// Properly get createClient from the imported library
-const { createClient } = supabase;
-const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
 
 document.getElementById("schoolForm").addEventListener("submit", async e => {
   e.preventDefault();
@@ -256,18 +257,20 @@ document.getElementById("schoolForm").addEventListener("submit", async e => {
     // created_at is defaulted by the DB, do not set it here
   };
 
-  const { error } = await supabase.from("app_users").insert([payload]);
+ const { data, error } = await supabase.from("app_users").insert([payload]);
 
-  if (error) {
-    errorMessage.textContent = error.message;
-    errorMessage.style.display = "block";
-    successMessage.style.display = "none";
-  } else {
-    successMessage.style.display = "block";
-    errorMessage.style.display = "none";
-    e.target.reset();
-  }
-});
+if (error) {
+  console.log('Error inserting data:', error);
+  errorMessage.textContent = error.message;
+  errorMessage.style.display = "block";
+  successMessage.style.display = "none";
+} else {
+  console.log('Data inserted successfully:', data);  // Add this line to check success
+  successMessage.style.display = "block";
+  errorMessage.style.display = "none";
+  e.target.reset();
+}
+
 </script>
 
 </body>
