@@ -87,54 +87,68 @@ button{
 <h3>Student Information</h3>
 
 <div class="form-group">
-  <label>First Name</label>
-  <input name="Gname">
+  <label for="Gname">First Name</label>
+  <input id="Gname" name="Gname">
 </div>
 
 <div class="form-group">
-  <label>Surname</label>
-  <input name="surname">
+  <label for="surname">Surname</label>
+  <input id="surname" name="surname">
 </div>
 
 <div class="form-group">
-  <label>Date of Birth</label>
-  <input type="date" name="dob">
+  <label for="dob">Date of Birth</label>
+  <input id="dob" type="date" name="dob">
 </div>
 
 <div class="form-group">
-  <label>Age</label>
-  <input type="number" name="age">
+  <label for="age">Age</label>
+  <input id="age" type="number" name="age">
 </div>
 
 <div class="form-group">
-  <label>School Last Attended</label>
-  <input name="school">
+  <label for="school">School Last Attended</label>
+  <input id="school" name="school">
 </div>
 
 <div class="form-group">
-  <label>Email</label>
-  <input type="email" name="email">
+  <label for="email">Email</label>
+  <input id="email" type="email" name="email">
 </div>
 
 <div class="form-group">
-  <label>Religion</label>
-  <input name="religion">
+  <label for="religion">Religion</label>
+  <input id="religion" name="religion">
+</div>
+#//////////////////////////////////////////////////////////////
+
+<div class="form-group">
+  <label for="baptized">Baptized</label>
+  <select id="baptized" name="baptized">
+    <option></option>
+    <option>Yes</option>
+    <option>No</option>
+  </select>
 </div>
 
 <div class="form-group">
-  <label>Baptized</label>
-  <select name="baptized"><option></option><option>Yes</option><option>No</option></select>
+  <label for="communion">Communion</label>
+  <select id="communion" name="communion">
+    <option></option>
+    <option>Yes</option>
+    <option>No</option>
+  </select>
 </div>
 
 <div class="form-group">
-  <label>Communion</label>
-  <select name="communion"><option></option><option>Yes</option><option>No</option></select>
+  <label for="confirmation">Confirmation</label>
+  <select id="confirmation" name="confirmation">
+    <option></option>
+    <option>Yes</option>
+    <option>No</option>
+  </select>
 </div>
-
-<div class="form-group">
-  <label>Confirmation</label>
-  <select name="confirmation"><option></option><option>Yes</option><option>No</option></select>
-</div>
+#///////////////////////////////////////////////////////////////
 
 <h3>Address</h3>
 
@@ -181,12 +195,16 @@ button{
 <h3>Transport</h3>
 
 <div class="form-group full-width radio-group">
-  <label><input type="radio" name="transport" value="School Bus"> School Bus</label>
-  <label><input type="radio" name="transport" value="Private"> Private</label>
-</div>
+  <label for="transport_bus">
+    <input id="transport_bus" type="radio" name="transport" value="School Bus">
+    School Bus
+  </label>
 
-<div class="form-group"><label>Mode</label><input name="mode"></div>
-<div class="form-group"><label>Agree Transport</label><select name="agree_transport"><option></option><option>Yes</option><option>No</option></select></div>
+  <label for="transport_private">
+    <input id="transport_private" type="radio" name="transport" value="Private">
+    Private
+  </label>
+</div>
 
 <button type="submit">Submit Registration</button>
 </form>
