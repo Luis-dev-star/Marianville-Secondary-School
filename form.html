@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Marianville Secondary School – Registration Form</title>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 
 <style>
   :root{
@@ -207,51 +207,101 @@ button{
 </form>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
+const SUPABASE_URL = "https://db.htbxnypwbgiwkwmqezmr.supabase.co";
+const SUPABASE_ANON_KEY = "sb_publishable_FqI3J_47_SnMiiXEQLahGQ_sCElz4qZ"; // replace with your anon key
+
+// Properly initialize Supabase client
+const { createClient } = supabase;
+const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
 const successMessage = document.getElementById("successMessage");
 const errorMessage = document.getElementById("errorMessage");
+const form = document.getElementById("schoolForm");
 
-// Your deployed proxy route (e.g., Vercel, Netlify Function, Cloudflare Worker)
-const API_ENDPOINT = "/api/submit";
-
-document.getElementById("schoolForm").addEventListener("submit", async (e) => {
+form.addEventListener("submit", async (e) => {
   e.preventDefault();
 
-  const formData = Object.fromEntries(new FormData(e.target));
+  const data = Object.fromEntries(new FormData(e.target));
 
-  // honeypot bot trap
-  if (formData.website) return;
+  // honeypot
+  if (data.website) return;
 
-  // frontend required validation
-  if (!formData.surname || !formData.Gname) {
+  // basic front-end validation
+  if (!data.Gname || !data.surname) {
     errorMessage.textContent = "First name and surname are required.";
     errorMessage.style.display = "block";
     successMessage.style.display = "none";
     return;
   }
 
-  const res = await fetch(API_ENDPOINT, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      // DO NOT hardcode secret publicly
-      "x-server-secret": "REPLACE_WITH_YOUR_PROXY_SECRET"
-    },
-    body: JSON.stringify(formData)
-  });
+  // Normalize checkbox (agree_transport) to text or null
+  const agreeTransportValue = data.agree_transport ? String(data.agree_transport) : null;
 
-  const text = await res.text();
+  // Build explicit payload matching your DB columns
+  const payload = {
+    surname: data.surname || null,
+    Gname: data.Gname || null,
+    dob: data.dob || null,
+    age: data.age ? Number(data.age) : null,
+    school: data.school || null,
+    email: data.email || null,
+    religion: data.religion || null,
+    baptized: data.baptized || null,
+    communion: data.communion || null,
+    confirmation: data.confirmation || null,
+    section: data.section || null,
+    allotment: data.allotment || null,
+    block: data.block || null,
+    house_number: data.house_number || null,
+    road: data.road || null,
+    unit: data.unit || null,
+    suburban: data.suburban || null,
+    father_name: data.father_name || null,
+    father_occupation: data.father_occupation || null,
+    employer_name: data.employer_name || null,
+    place_of_origin: data.place_of_origin || null,
+    contact_number: data.contact_number || null,
+    father_email: data.father_email || null,
+    mother_name: data.mother_name || null,
+    mother_occupation: data.mother_occupation || null,
+    mother_employer_name: data.mother_employer_name || null,
+    mother_place_of_origin: data.mother_place_of_origin || null,
+    mother_contact_number: data.mother_contact_number || null,
+    mother_email: data.mother_email || null,
+    guardian_name: data.guardian_name || null,
+    guardian_occupation: data.guardian_occupation || null,
+    guardian_relationship: data.guardian_relationship || null,
+    guardian_place_of_origin: data.guardian_place_of_origin || null,
+    guardian_contact_number: data.guardian_contact_number || null,
+    guardian_email: data.guardian_email || null,
+    emergency_contact_name: data.emergency_contact_name || null,
+    emergency_relationship: data.emergency_relationship || null,
+    emergency_contact_number: data.emergency_contact_number || null,
+    transport: data.transport || null,
+    mode: data.mode || null,
+    agree_transport: agreeTransportValue
+  };
 
-  if (!res.ok) {
-    errorMessage.textContent = text || "Submission failed";
+  // Insert into DB
+  const { data: inserted, error } = await supabase
+    .from("app_users")
+    .insert([payload]);
+
+  if (error) {
+    // Show error message returned by Supabase
+    errorMessage.textContent = error.message || "Insert failed";
     errorMessage.style.display = "block";
     successMessage.style.display = "none";
+    console.error("Supabase insert error:", error);
     return;
   }
 
+  // Success
   successMessage.style.display = "block";
   errorMessage.style.display = "none";
-  e.target.reset();
+  form.reset();
 });
 </script>
 
