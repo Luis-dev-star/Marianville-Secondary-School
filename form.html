@@ -214,8 +214,8 @@ const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
 
 // Properly initialize Supabase client
 
-const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-const { createClient } = supabase;
+// Properly initialize Supabase client
+const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 const successMessage = document.getElementById("successMessage");
 const errorMessage = document.getElementById("errorMessage");
 const form = document.getElementById("schoolForm");
