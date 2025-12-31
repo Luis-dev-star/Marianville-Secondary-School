@@ -288,7 +288,7 @@ form.addEventListener("submit", async (e) => {
 
   // Insert into DB
   const { data: inserted, error } = await supabaseClient
-    .from("app_users")
+    .from("public.app_users")
     .insert([payload]);
 
   if (error) {
