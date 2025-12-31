@@ -213,9 +213,9 @@ const SUPABASE_URL = "https://db.htbxnypwbgiwkwmqezmr.supabase.co";
 const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh0YnhueXB3Ymdpd2t3bXFlem1yIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUyODk1ODUsImV4cCI6MjA4MDg2NTU4NX0.ZUqnPruYOfIz_VVAILWZxsE9k9aqM0ruLllLm-Bnqvg"; // replace with your anon key
 
 // Properly initialize Supabase client
-const { createClient } = supabase;
-const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
+const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const { createClient } = supabase;
 const successMessage = document.getElementById("successMessage");
 const errorMessage = document.getElementById("errorMessage");
 const form = document.getElementById("schoolForm");
