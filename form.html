@@ -312,55 +312,6 @@ form.addEventListener("submit", async (e) => {
 
  
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js">
-    // ========= PDF DOWNLOAD =========
-document.getElementById("downloadPdfBtn").addEventListener("click", () => {
-
-  const element = document.querySelector(".container");
-
-  const opt = {
-    margin:       10,
-    filename:     'registration-form.pdf',
-    image:        { type: 'jpeg', quality: 0.98 },
-    html2canvas:  { scale: 2 },
-    jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
-  };
-
-  html2pdf().set(opt).from(element).save();
-});
-  </script>
-
- 
-
- 
-  
-<script src="https://unpkg.com/html-docx-js@0.3.1/index.js">
-  
-document.getElementById("downloadDocxBtn").addEventListener("click", () => {
-
-  const container = document.querySelector(".container");
-
-  const html = `
-    <!DOCTYPE html>
-    <html>
-    <head>
-      <meta charset="UTF-8">
-      <title>Registration Form</title>
-    </head>
-    <body>
-      ${container.innerHTML}
-    </body>
-    </html>
-  `;
-
-  // ✔️ htmlDocx is now defined
-  const blob = htmlDocx.asBlob(html);
-
-  saveAs(blob, "registration-form.docx");
-});
-</script>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
 
 
 
