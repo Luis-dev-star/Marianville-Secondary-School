@@ -310,8 +310,10 @@ form.addEventListener("submit", async (e) => {
 });
 </script>
 
-  <script>
-// ========= PDF DOWNLOAD =========
+ 
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js">
+    // ========= PDF DOWNLOAD =========
 document.getElementById("downloadPdfBtn").addEventListener("click", () => {
 
   const element = document.querySelector(".container");
@@ -326,9 +328,14 @@ document.getElementById("downloadPdfBtn").addEventListener("click", () => {
 
   html2pdf().set(opt).from(element).save();
 });
+  </script>
 
+ 
 
-// ========= DOCX DOWNLOAD =========
+ 
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html-docx-js/0.4.1/html-docx.js">
+    // ========= DOCX DOWNLOAD =========
 document.getElementById("downloadDocxBtn").addEventListener("click", () => {
 
   const content = document.querySelector(".container").innerHTML;
@@ -342,14 +349,8 @@ document.getElementById("downloadDocxBtn").addEventListener("click", () => {
 
   saveAs(converted, 'registration-form.docx');
 });
-</script>
-
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html-docx-js/0.4.1/html-docx.js"></script>
+  </script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
 
 
 </body>
