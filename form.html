@@ -334,23 +334,38 @@ document.getElementById("downloadPdfBtn").addEventListener("click", () => {
 
  
   
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html-docx-js/0.4.1/html-docx.js">
-    // ========= DOCX DOWNLOAD =========
+<script src="https://unpkg.com/html-docx-js@0.3.1/index.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+
+<script>
 document.getElementById("downloadDocxBtn").addEventListener("click", () => {
 
-  const content = document.querySelector(".container").innerHTML;
+  const container = document.querySelector(".container");
 
-  const pageHTML =
-    '<!DOCTYPE html><html><head><meta charset="UTF-8"></head><body>' +
-    content +
-    '</body></html>';
+  const html = `
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <meta charset="UTF-8">
+      <title>Registration Form</title>
+    </head>
+    <body>
+      ${container.innerHTML}
+    </body>
+    </html>
+  `;
 
-  const converted = htmlDocx.asBlob(pageHTML);
+  // ✔️ htmlDocx is now defined
+  const blob = htmlDocx.asBlob(html);
 
-  saveAs(converted, 'registration-form.docx');
+  saveAs(blob, "registration-form.docx");
 });
-  </script>
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+</script>
+
+    
+   
+
+  
 
 
 </body>
